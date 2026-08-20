@@ -1,0 +1,62 @@
+[
+  {
+    "id": "salesforce",
+    "name": "Salesforce",
+    "description": "Query accounts, opportunities, pipeline, and reports directly from Claude.",
+    "credentialLabel": "SALESFORCE_MCP_TOKEN",
+    "credentialHelp": "Ask Shubhi or Pranav for your personal Salesforce MCP token.",
+    "config": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote@latest",
+        "https://salesforce-mcp.bravestone-4e7fe75c.eastus.azurecontainerapps.io/mcp",
+        "--header",
+        "Authorization: Bearer ${SALESFORCE_MCP_TOKEN}"
+      ],
+      "env": {
+        "SALESFORCE_MCP_TOKEN": "PASTE_YOUR_SALESFORCE_TOKEN_HERE"
+      }
+    }
+  },
+  {
+    "id": "gong",
+    "name": "Gong",
+    "description": "Search and summarize Gong call recordings and transcripts.",
+    "credentialLabel": "GONG_API_KEY",
+    "credentialHelp": "Ask Shubhi or Pranav for your personal Gong API key.",
+    "config": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote@latest",
+        "https://gong-mcp.jollymeadow-de1616c4.eastus.azurecontainerapps.io/mcp",
+        "--header",
+        "x-api-key: ${GONG_API_KEY}"
+      ],
+      "env": {
+        "GONG_API_KEY": "PASTE_YOUR_GONG_API_KEY_HERE"
+      }
+    }
+  },
+  {
+    "id": "highspot-gtm",
+    "name": "Highspot",
+    "description": "Search Netchex's Highspot sales enablement library (battlecards, case studies, talk tracks). Pairs with the ask-highspot skill.",
+    "credentialLabel": "HIGHSPOT_API_KEY",
+    "credentialHelp": "Ask Shubhi or Pranav for your personal Highspot API key.",
+    "config": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote@latest",
+        "https://highspot-mcp.happyisland-1d14e8d1.eastus.azurecontainerapps.io/mcp",
+        "--header",
+        "x-api-key: ${HIGHSPOT_API_KEY}"
+      ],
+      "env": {
+        "HIGHSPOT_API_KEY": "PASTE_YOUR_HIGHSPOT_API_KEY_HERE"
+      }
+    }
+  }
+]
