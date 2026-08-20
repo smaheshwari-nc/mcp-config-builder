@@ -62,28 +62,6 @@
     text-transform:uppercase;
     margin-bottom:10px;
   }
-  .os-toggle{
-    display:flex;
-    gap:8px;
-    margin-bottom:32px;
-  }
-  .os-toggle button{
-    flex:1;
-    padding:10px 14px;
-    border:1px solid var(--border);
-    background:#fff;
-    border-radius:6px;
-    font-size:14px;
-    color:var(--slate);
-    cursor:pointer;
-    transition:all .15s;
-  }
-  .os-toggle button.active{
-    border-color:var(--navy);
-    background:var(--navy);
-    color:#fff;
-    font-weight:600;
-  }
   .reference-banner{
     background:var(--blueSoft);
     border:1px solid var(--border);
@@ -242,12 +220,6 @@
     <a href="https://netchex849.sharepoint.com/sites/ProductTeam/Shared%20Documents/Forms/AllItems.aspx?csf=1&web=1&CID=31b72022%2Dc6eb%2D4697%2D8eba%2D409a0e1a9b78&FolderCTID=0x0120003A786AE61793A6418FE687265466A5CE&id=%2Fsites%2FProductTeam%2FShared%20Documents%2FSalesforce%5FGong%5FMCP%5FSetup" target="_blank" rel="noopener">Custom MCP Setup guide</a> on SharePoint.
   </div>
 
-  <div class="section-label">Your operating system</div>
-  <div class="os-toggle">
-    <button id="os-mac" class="active" onclick="setOS('mac')">macOS</button>
-    <button id="os-win" onclick="setOS('win')">Windows</button>
-  </div>
-
   <div class="section-label">Select the MCP servers you need</div>
   <div id="mcp-list" class="mcp-list">
     <p class="empty-note">Loading available servers…</p>
@@ -281,7 +253,6 @@
 <script>
 let mcps = [];
 let selected = new Set();
-let currentOS = 'mac';
 
 fetch('mcps.json')
   .then(r => r.json())
@@ -316,12 +287,6 @@ function toggle(id){
   else selected.add(id);
   document.getElementById('card-' + id).classList.toggle('checked');
   render();
-}
-
-function setOS(os){
-  currentOS = os;
-  document.getElementById('os-mac').classList.toggle('active', os === 'mac');
-  document.getElementById('os-win').classList.toggle('active', os === 'win');
 }
 
 function render(){
