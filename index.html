@@ -84,23 +84,20 @@
     color:#fff;
     font-weight:600;
   }
-  .win-warning{
-    display:none;
-    background:var(--amberSoft);
-    border:1px solid var(--amberBorder);
-    color:var(--amber);
+  .reference-banner{
+    background:var(--blueSoft);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:14px 16px;
+    margin-bottom:28px;
     font-size:13px;
-    padding:12px 14px;
-    border-radius:6px;
-    margin-bottom:32px;
+    color:var(--slate);
     line-height:1.5;
   }
-  .win-warning.show{display:block;}
-  .win-warning code{
-    background:rgba(0,0,0,0.06);
-    padding:1px 5px;
-    border-radius:3px;
-    font-size:12px;
+  .reference-banner a{
+    color:var(--blue);
+    font-weight:600;
+    text-decoration:underline;
   }
   .mcp-list{
     display:flex;
@@ -240,15 +237,15 @@
 </header>
 
 <main>
+  <div class="reference-banner">
+    📄 For detailed step-by-step instructions and a setup video, see the
+    <a href="https://netchex849.sharepoint.com/sites/ProductTeam/Shared%20Documents/Forms/AllItems.aspx?csf=1&web=1&CID=31b72022%2Dc6eb%2D4697%2D8eba%2D409a0e1a9b78&FolderCTID=0x0120003A786AE61793A6418FE687265466A5CE&id=%2Fsites%2FProductTeam%2FShared%20Documents%2FSalesforce%5FGong%5FMCP%5FSetup" target="_blank" rel="noopener">Salesforce &amp; Gong MCP Setup guide</a> on SharePoint.
+  </div>
+
   <div class="section-label">Your operating system</div>
   <div class="os-toggle">
     <button id="os-mac" class="active" onclick="setOS('mac')">macOS</button>
     <button id="os-win" onclick="setOS('win')">Windows</button>
-  </div>
-
-  <div id="win-warning" class="win-warning">
-    ⚠️ <b>Windows users:</b> if Node.js was installed to the default path, Claude Desktop's spawned servers can fail with
-    <code>'C:\Program' is not recognized</code>. If you hit that error after pasting your config below, check with Shubhi or Pranav for the wrapper-script fix before re-launching.
   </div>
 
   <div class="section-label">Select the MCP servers you need</div>
@@ -325,7 +322,6 @@ function setOS(os){
   currentOS = os;
   document.getElementById('os-mac').classList.toggle('active', os === 'mac');
   document.getElementById('os-win').classList.toggle('active', os === 'win');
-  document.getElementById('win-warning').classList.toggle('show', os === 'win');
 }
 
 function render(){
@@ -340,8 +336,8 @@ function render(){
 
   // credential checklist
   const cl = document.getElementById('credential-checklist');
-  cl.innerHTML = '<p>Before you paste the config, get these credentials:</p><ul>' +
-    chosen.map(m => `<li><b>${m.name}</b> — ${m.credentialHelp}</li>`).join('') +
+  cl.innerHTML = '<p>Get these credentials:</p><ul>' +
+    chosen.map(m => `<li><b>${m.name}</b></li>`).join('') +
     '</ul>';
 
   // merged config
