@@ -337,7 +337,7 @@ function render(){
   // credential checklist
   const cl = document.getElementById('credential-checklist');
   cl.innerHTML = '<p>Get these credentials:</p><ul>' +
-    chosen.map(m => `<li><b>${m.name}</b></li>`).join('') +
+    chosen.map(m => `<li><b>${m.credentialName || m.name}</b></li>`).join('') +
     '</ul>';
 
   // merged config

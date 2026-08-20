@@ -4,6 +4,7 @@
     "name": "Salesforce",
     "description": "Query accounts, opportunities, pipeline, and reports directly from Claude.",
     "credentialLabel": "SALESFORCE_MCP_TOKEN",
+    "credentialName": "Salesforce MCP token",
     "credentialHelp": "Ask Shubhi or Pranav for your personal Salesforce MCP token.",
     "config": {
       "command": "npx",
@@ -24,6 +25,7 @@
     "name": "Gong",
     "description": "Search and summarize Gong call recordings and transcripts.",
     "credentialLabel": "GONG_API_KEY",
+    "credentialName": "Gong token",
     "credentialHelp": "Ask Shubhi or Pranav for your personal Gong API key.",
     "config": {
       "command": "npx",
@@ -44,6 +46,7 @@
     "name": "Highspot",
     "description": "Search Netchex's Highspot sales enablement library (battlecards, case studies, talk tracks). Pairs with the ask-highspot skill.",
     "credentialLabel": "HIGHSPOT_API_KEY",
+    "credentialName": "Highspot MCP token",
     "credentialHelp": "Ask Shubhi or Pranav for your personal Highspot API key.",
     "config": {
       "command": "npx",

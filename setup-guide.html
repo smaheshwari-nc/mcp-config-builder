@@ -1,0 +1,455 @@
+<title>Salesforce &amp; Gong MCP Setup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper: #ffffff;
+    --ink: #1a2233;
+    --muted: #5c6579;
+    --border: #e1e5ee;
+    --accent: #2451c4;
+    --accent-ink: #ffffff;
+    --accent-soft: #eaf0fe;
+    --accent-soft-border: #cddafb;
+    --rail: #2451c4;
+    --ok-bg: #e9f8ef;
+    --ok-border: #b9e9c9;
+    --ok-ink: #0f6b34;
+    --warn-bg: #fdeeea;
+    --warn-border: #f6cdc0;
+    --warn-ink: #a13a1f;
+    --amber-bg: #fdf3dd;
+    --amber-border: #f3ddA0;
+    --amber-ink: #8a6110;
+    --blue2-bg: #eaf1fd;
+    --blue2-border: #c9dcf9;
+    --blue2-ink: #1d4b96;
+    --violet-bg: #f1eefb;
+    --violet-border: #dcd3f5;
+    --violet-ink: #543f9c;
+    --code-bg: #f3f5fa;
+    --code-ink: #2c3550;
+    --or-ink: #8b6b1a;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #14171f;
+      --ink: #e7eaf3;
+      --muted: #9aa2b8;
+      --border: #2a2f3d;
+      --accent: #6f96f5;
+      --accent-ink: #0c1120;
+      --accent-soft: #1b2440;
+      --accent-soft-border: #33427a;
+      --rail: #6f96f5;
+      --ok-bg: #123322;
+      --ok-border: #1e5636;
+      --ok-ink: #7fdba0;
+      --warn-bg: #3a1f18;
+      --warn-border: #5c2f22;
+      --warn-ink: #f0a488;
+      --amber-bg: #3a2f10;
+      --amber-border: #5c4a18;
+      --amber-ink: #eec66a;
+      --blue2-bg: #182742;
+      --blue2-border: #26406e;
+      --blue2-ink: #9fc0f5;
+      --violet-bg: #241d3d;
+      --violet-border: #392c5e;
+      --violet-ink: #c3b2ef;
+      --code-bg: #1b1f2b;
+      --code-ink: #cdd3e6;
+      --or-ink: #e0c069;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #14171f;
+    --ink: #e7eaf3;
+    --muted: #9aa2b8;
+    --border: #2a2f3d;
+    --accent: #6f96f5;
+    --accent-ink: #0c1120;
+    --accent-soft: #1b2440;
+    --accent-soft-border: #33427a;
+    --rail: #6f96f5;
+    --ok-bg: #123322;
+    --ok-border: #1e5636;
+    --ok-ink: #7fdba0;
+    --warn-bg: #3a1f18;
+    --warn-border: #5c2f22;
+    --warn-ink: #f0a488;
+    --amber-bg: #3a2f10;
+    --amber-border: #5c4a18;
+    --amber-ink: #eec66a;
+    --blue2-bg: #182742;
+    --blue2-border: #26406e;
+    --blue2-ink: #9fc0f5;
+    --violet-bg: #241d3d;
+    --violet-border: #392c5e;
+    --violet-ink: #c3b2ef;
+    --code-bg: #1b1f2b;
+    --code-ink: #cdd3e6;
+    --or-ink: #e0c069;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Public Sans", -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.55;
+  }
+
+  .doc {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 28px 96px;
+  }
+
+  .kicker {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin: 0 0 14px;
+  }
+
+  h1 {
+    font-size: clamp(1.7rem, 3.2vw, 2.35rem);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 0 0 14px;
+    text-wrap: balance;
+  }
+
+  .lede {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 62ch;
+    margin: 0 0 40px;
+  }
+
+  h2 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.003em;
+    margin: 56px 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  h2:first-of-type { margin-top: 8px; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 20px;
+    font-size: 0.92rem;
+  }
+  caption { text-align: left; font-size: 0.85rem; color: var(--muted); margin-bottom: 10px; }
+  th {
+    background: var(--accent);
+    color: var(--accent-ink);
+    text-align: left;
+    font-weight: 600;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+  }
+  th:first-child { border-radius: 8px 0 0 0; }
+  th:last-child { border-radius: 0 8px 0 0; }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: color-mix(in srgb, var(--border) 25%, transparent); }
+
+  code, .code {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.86em;
+    background: var(--code-bg);
+    color: var(--code-ink);
+    padding: 0.1em 0.4em;
+    border-radius: 4px;
+  }
+
+  a { color: var(--accent); }
+
+  .step {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 0;
+    margin-bottom: 18px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .step-num {
+    background: var(--rail);
+    color: var(--accent-ink);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 18px;
+  }
+  .step-body {
+    padding: 16px 20px;
+    background: var(--accent-soft);
+    border-left: 1px solid var(--accent-soft-border);
+  }
+  .step-body h3 {
+    margin: 0 0 8px;
+    font-size: 0.97rem;
+    font-weight: 700;
+  }
+  .step-body p { margin: 0 0 8px; font-size: 0.93rem; }
+  .step-body p:last-child { margin-bottom: 0; }
+  .step-body strong { color: var(--ink); }
+
+  .or-divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 22px 0;
+    color: var(--or-ink);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+  }
+  .or-divider::before, .or-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--amber-border), transparent);
+  }
+
+  .path-label {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: var(--accent-ink) !important;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.88rem;
+    padding: 9px 16px;
+    border-radius: 8px;
+    margin: 8px 0 2px;
+  }
+  .link-btn:hover { filter: brightness(1.08); }
+
+  ol.instructions {
+    margin: 0;
+    padding-left: 1.2em;
+    font-size: 0.93rem;
+  }
+  ol.instructions li { margin-bottom: 6px; }
+  ol.instructions li:last-child { margin-bottom: 0; }
+
+  .callout {
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 0 0 16px;
+    font-size: 0.93rem;
+    border: 1px solid;
+  }
+  .callout h4 { margin: 0 0 6px; font-size: 0.93rem; font-weight: 700; }
+  .callout p { margin: 0; }
+  .callout.ok { background: var(--ok-bg); border-color: var(--ok-border); color: var(--ok-ink); }
+  .callout.warn { background: var(--warn-bg); border-color: var(--warn-border); color: var(--warn-ink); }
+  .callout.amber { background: var(--amber-bg); border-color: var(--amber-border); color: var(--amber-ink); }
+  .callout.blue2 { background: var(--blue2-bg); border-color: var(--blue2-border); color: var(--blue2-ink); }
+  .callout.violet { background: var(--violet-bg); border-color: var(--violet-border); color: var(--violet-ink); }
+  .callout ul { margin: 6px 0 0; padding-left: 1.2em; }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  @media (max-width: 520px) {
+    .step { grid-template-columns: 32px 1fr; }
+    .step-num { font-size: 0.8rem; padding-top: 16px; }
+  }
+</style>
+
+<div class="doc">
+  <p class="kicker">Netchex &middot; Internal Setup Guide</p>
+  <h1>Connecting Salesforce &amp; Gong to Claude Desktop</h1>
+  <p class="lede">Connect Claude Desktop to Salesforce and/or Gong so Claude can access your data directly.</p>
+
+  <h2>What you need before starting</h2>
+  <table>
+    <thead><tr><th>Tool</th><th>Key to request</th></tr></thead>
+    <tbody>
+      <tr><td>Salesforce</td><td>Salesforce MCP Token</td></tr>
+      <tr><td>Gong</td><td>Gong API Key</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:0.93rem; color:var(--muted); margin-top:-6px;">
+    To get your keys, reach out to Shubhi Maheshwari (smaheshwari@netchexonline.com) or Pranav Mankar (pmankar@netchexonline.com).
+  </p>
+
+  <h2>Step 1 &mdash; Install Node.js</h2>
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <h3>Download and install Node.js</h3>
+      <p>Go to <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a> in your browser.</p>
+      <p>Click the large button labelled &ldquo;Download Node.js (LTS)&rdquo; &mdash; LTS is the stable, recommended version.</p>
+      <p>Open the downloaded file and follow the installer: Continue &rarr; Continue &rarr; Continue &rarr; Install.</p>
+      <p>Enter your computer password if prompted, then click Close when done. Node.js runs silently in the background &mdash; you do not need to open it.</p>
+      <p><strong>Windows:</strong> when the installer reaches the &ldquo;Destination Folder&rdquo; screen, click Change and set the install path to somewhere with no spaces &mdash; e.g. <code>C:\nodejs</code> instead of the default <code>C:\Program Files\nodejs</code>. This avoids a known Windows issue where MCP servers fail to start with a <code>'C:\Program' is not recognized</code> error.</p>
+    </div>
+  </div>
+
+  <h2>Step 2 &mdash; Open Claude Desktop Settings</h2>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <h3>Get to Settings</h3>
+      <p><strong>Mac:</strong> Click your profile icon or name at the bottom-left of Claude &rarr; select Settings.</p>
+      <p><strong>Windows:</strong> Click the menu icon at the top-left &rarr; Settings.</p>
+    </div>
+  </div>
+
+  <h2>Step 3 &mdash; Go to Developer and click Edit Config</h2>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <h3>Open the config file</h3>
+      <p>In the Settings window, scroll down the left sidebar and click <strong>Developer</strong>.</p>
+      <p>Click <strong>Edit Config</strong> &mdash; this opens your config file in a text editor.</p>
+    </div>
+  </div>
+
+  <h2>Step 4 &mdash; Update the Config File</h2>
+
+  <span class="path-label">Path A &middot; Use a pre-made config file</span>
+  <p style="font-size:0.93rem; color:var(--muted); margin-top:-6px;">Choose the config file that matches your setup:</p>
+  <table>
+    <thead><tr><th>I want to connect&hellip;</th><th>Use this file</th></tr></thead>
+    <tbody>
+      <tr><td>Salesforce only</td><td><code>config_salesforce_only.txt</code></td></tr>
+      <tr><td>Gong only</td><td><code>config_gong_only.txt</code></td></tr>
+      <tr><td>Both Salesforce and Gong</td><td><code>config_salesforce_and_gong.txt</code></td></tr>
+    </tbody>
+  </table>
+
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-body">
+      <h3>Replace the config file contents</h3>
+      <p>In the text editor, select all: &#8984;A (Mac) or Ctrl+A (Windows), then delete.</p>
+      <p>Open your config text file, copy all its contents, and paste into the now-empty config file.</p>
+      <p>Save: &#8984;S (Mac) / Ctrl+S (Windows).</p>
+    </div>
+  </div>
+
+  <div class="or-divider">OR</div>
+
+  <span class="path-label">Path B &middot; Generate your config from the MCP Config Builder</span>
+  <p style="font-size:0.93rem; color:var(--muted); margin-top:-6px;">Prefer this if you want more than one combination, or want to add tools like Highspot alongside Salesforce and Gong.</p>
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-body">
+      <h3>Build and paste your config</h3>
+      <ol class="instructions">
+        <li>Open the MCP Config Builder:
+          <div><a class="link-btn" href="https://smaheshwari-nc.github.io/mcp-config-builder/" target="_blank" rel="noopener">smaheshwari-nc.github.io/mcp-config-builder &rarr;</a></div>
+        </li>
+        <li>Check the box next to every MCP you want to connect (Salesforce, Gong, Highspot, or any combination).</li>
+        <li>Copy the generated config from the box on the page.</li>
+        <li>Back in Claude Desktop, select all (&#8984;A / Ctrl+A) in the empty config file, delete, and paste in what you copied.</li>
+        <li>Save: &#8984;S (Mac) / Ctrl+S (Windows).</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">5</div>
+    <div class="step-body">
+      <h3>Replace the placeholder text with your actual keys</h3>
+      <p>Find <code>PASTE_YOUR_SALESFORCE_TOKEN_HERE</code> &rarr; replace with your Salesforce token.</p>
+      <p>Find <code>PASTE_YOUR_GONG_API_KEY_HERE</code> &rarr; replace with your Gong API key.</p>
+      <p>Keep the quotation marks on both sides &mdash; only replace the placeholder text inside them.</p>
+      <p>Save the file again.</p>
+    </div>
+  </div>
+
+  <h2>Step 5 &mdash; Restart Claude and Verify</h2>
+  <div class="step">
+    <div class="step-num">6</div>
+    <div class="step-body">
+      <h3>Fully quit and relaunch Claude Desktop</h3>
+      <p><strong>Mac:</strong> Right-click Claude in the Dock &rarr; Quit.</p>
+      <p><strong>Windows:</strong> Closing the window does not quit Claude &mdash; it minimizes to the system tray. Right-click the Claude icon in the system tray (bottom-right, near the clock &mdash; click the arrow if it's hidden) &rarr; Quit, and wait a few seconds for it to fully close. If Claude doesn't reopen properly, open Task Manager (Ctrl+Shift+Esc), find any Claude entries under Processes, and click End Task before relaunching.</p>
+      <p>Then reopen Claude Desktop.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">7</div>
+    <div class="step-body">
+      <h3>Confirm the connection</h3>
+      <p>Go to Settings &rarr; Developer. Your MCP servers should appear with a blue running badge.</p>
+    </div>
+  </div>
+
+  <div class="callout ok">
+    <h4>Try it out</h4>
+    <ul>
+      <li>&ldquo;Show me my top 5 open opportunities in Salesforce&rdquo;</li>
+      <li>&ldquo;Summarise my last Gong call with [customer name]&rdquo;</li>
+      <li>&ldquo;Which deals are at risk of closing late this quarter?&rdquo;</li>
+    </ul>
+  </div>
+
+  <h2>Troubleshooting</h2>
+
+  <div class="callout warn">
+    <h4>Server shows &lsquo;failed&rsquo;</h4>
+    <p>Check that your token/API key is correct &mdash; no extra spaces or missing characters. Make sure you kept the quotation marks and only replaced the placeholder text inside them. Fully quit and relaunch Claude Desktop after saving.</p>
+  </div>
+
+  <div class="callout amber">
+    <h4>Servers not listed at all</h4>
+    <p>Open the config file again (Settings &rarr; Developer &rarr; Edit Config) and confirm your content is still there. Make sure you saved the file before restarting Claude.</p>
+  </div>
+
+  <div class="callout blue2">
+    <h4>Token expired or invalid</h4>
+    <p>Request a fresh token/key and update it in the config file, save, and restart Claude.</p>
+  </div>
+
+  <div class="callout violet">
+    <h4>Error mentions &lsquo;C:\Program&rsquo; is not recognized (Windows)</h4>
+    <p>This happens when Node.js is installed at the default path <code>C:\Program Files\nodejs</code> &mdash; the space in &ldquo;Program Files&rdquo; breaks command execution on Windows. Fix: reinstall Node.js and choose a custom install path with no spaces (e.g. <code>C:\nodejs</code>), then fully quit Claude Desktop (see Step 5) and relaunch.</p>
+  </div>
+
+  <footer>Questions? Reach out to Shubhi Maheshwari or Pranav Mankar.</footer>
+</div>

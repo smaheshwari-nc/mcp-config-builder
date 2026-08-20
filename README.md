@@ -20,6 +20,7 @@ Open `mcps.json` and add a new object to the array, following the existing patte
   "name": "Display Name",
   "description": "One line describing what it lets Claude do.",
   "credentialLabel": "ENV_VAR_NAME",
+  "credentialName": "Human-readable credential name shown in the checklist, e.g. 'Gong token'.",
   "credentialHelp": "Where/who to get the credential from.",
   "config": {
     "command": "npx",
